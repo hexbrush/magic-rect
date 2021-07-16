@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+
+        <style>
+            body {
+                background: lightpink;
+                font-family: 'Rubik', sans-serif;
+                text-align: center;
+            }
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                text-align:center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            td {
+                width: 100px;
+                height: 100px;
+            }
+            table {
+                font-size: 50;
+                background:white;
+            }
+            #well_done {
+                display: none;
+                font-size:100;
+                font-family: 'Rubik', sans-serif;
+            }
+            #challenge_table {
+                border:brown;
+                border-style: solid;
+            }
+            #letters_table {
+                border:gray;
+                border-style: solid;
+            }
+        </style>
+    </head>
+    <body dir="rtl">
+        <h1>מלבן הקסם</h1>
+        <h2>נסו למלא את מלבן הקסם כך שיהיה מלא במילים חוקיות גם מימין לשמאל וגם מלמעלה למטה!</h2>
+        <div id='well_done'>
+            <img src=https://i.pinimg.com/originals/1c/36/47/1c3647552cdd47b9935ada21746f6872.gif>
+        </div>
+
+        <table id="challenge_table">
+            <tr>
+                <td class="box"></td>
+                <td class="box"></td>
+                <td class="box"></td>
+            </tr>
+            <tr>
+                <td class="box"></td>
+                <td class="box"></td>
+                <td class="box"></td>
+            </tr>
+        </table>
+
+        <h2>בנק האותיות</h2>
+
+        <table id='letters_table'>
+            <tr>
+                <td class="box"></td>
+                <td class="box"></td>
+                <td class="box"></td>
+                <td class="box"></td>
+                <td class="box"></td>
+                <td class="box"></td>
+            </tr>
+        </table>
+    </body>
+    <script src="riddle.js"></script>
+    <script>
+        function check()
+        {           
+            var table = document.getElementById('challenge_table');
+            var first = ''
+            var second = ''
+            for (c=0; c<3; c++)
+            {
+                first = first + table.rows[0].cells[c].innerText;
+                second = second + table.rows[1].cells[c].innerText;
+            }
+            if (check_answer(first, second))
+            {
+                document.getElementById('well_done').style.display = 'block';
+            }
+        }
+
+        function shuffle(array) {
+            var currentIndex = array.length,  randomIndex;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        var riddle = generate_riddle();
+        var table = document.getElementById('letters_table');
+
+        var indices = [0,1,2,3,4,5]
+        shuffle(indices)
+        table.rows[0].cells[indices[0]].innerText = riddle.first[0]
+        table.rows[0].cells[indices[1]].innerText = riddle.first[1]
+        table.rows[0].cells[indices[2]].innerText = riddle.first[2]
+        table.rows[0].cells[indices[3]].innerText = riddle.second[0]
+        table.rows[0].cells[indices[4]].innerText = riddle.second[1]
+        table.rows[0].cells[indices[5]].innerText = riddle.second[2]
+
+
+        var selectedElement;
+        var tds = document.getElementsByClassName("box");
+        for (var i = 0; i < tds.length; i++) {
+            tds[i].addEventListener('click', function(e) {
+                e = e || window.event;
+                var target = e.target || e.srcElement,
+                    text = target.textContent || target.innerText;   
+                if (selectedElement)
+                {
+                    if (text == '')
+                    {
+                        target.innerText = selectedElement.innerText;
+                        selectedElement.innerText = "";
+                        selectedElement.style.backgroundColor = 'white';
+                        selectedElement = undefined
+                        var audio = new Audio('click.wav');
+                        audio.play();
+                        check();
+                    }
+                }
+                else
+                {                    
+                    var audio = new Audio('click.wav');
+                    audio.play();
+                    if (text != '')
+                    {
+                        selectedElement = target;
+                        target.style.backgroundColor = 'yellow';
+                    }
+                }
+            }, false);        
+        }
+    </script>
+</html>

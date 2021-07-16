@@ -1,4 +1,17 @@
 
+function ccolor(l1, l2)
+{
+    if (l1 && l2)
+    {
+        return 'greenyellow'
+    }
+    if (l1 || l2)
+    {
+        return 'lightgreen'
+    }
+    return 'white'
+}
+
 function check()
 {           
     var table = document.getElementById('challenge_table');
@@ -9,7 +22,33 @@ function check()
         first = first + table.rows[0].cells[c].innerText;
         second = second + table.rows[1].cells[c].innerText;
     }
-    if (check_answer(first, second))
+    if (first.length != 3)
+    {
+        first = ''
+    }
+    if (second.length != 3)
+    {
+        second = ''
+    }
+
+    a = table.rows[0].cells[0].innerText + table.rows[1].cells[0].innerText
+    b = table.rows[0].cells[1].innerText + table.rows[1].cells[1].innerText
+    c = table.rows[0].cells[2].innerText + table.rows[1].cells[2].innerText
+
+    first_legal = check_three_letter_word(first)
+    second_legal = check_three_letter_word(second)
+    a_legal = check_two_letter_word(a)
+    b_legal = check_two_letter_word(b)
+    c_legal = check_two_letter_word(c)
+    
+    table.rows[0].cells[0].style.backgroundColor = ccolor(first_legal, a_legal)
+    table.rows[0].cells[1].style.backgroundColor = ccolor(first_legal, b_legal)
+    table.rows[0].cells[2].style.backgroundColor = ccolor(first_legal, c_legal)
+    table.rows[1].cells[0].style.backgroundColor = ccolor(second_legal, a_legal)
+    table.rows[1].cells[1].style.backgroundColor = ccolor(second_legal, b_legal)
+    table.rows[1].cells[2].style.backgroundColor = ccolor(second_legal, c_legal)
+
+    if(a_legal && b_legal && c_legal && first_legal && second_legal)
     {
         document.getElementById('well_done').style.display = 'block';
     }
@@ -46,8 +85,11 @@ for (var i = 0; i < tds.length; i++) {
     {
         e = e || window.event;
         var target = e.target || e.srcElement,
-            text = target.textContent || target.innerText;   
+            text = target.textContent || target.innerText;
+        tableId = target.parentElement.parentElement.parentElement.id
         
+        target.style.backgroundColor = 'white'
+
         if (selectedElement && selectedElement == target)
         {
             selectedElement.style.backgroundColor = 'white';
@@ -61,7 +103,7 @@ for (var i = 0; i < tds.length; i++) {
             selectedElement.innerText = "";
             selectedElement.style.backgroundColor = 'white';
             selectedElement = undefined
-            check();                    
+            check()
             return;
         }
 

@@ -1,6 +1,6 @@
 import sys
 
-f = open('wordlist.txt')
+f = open('words.txt', "r", encoding="utf-8")
 lines = f.readlines()
 
 fours = set()
@@ -19,13 +19,14 @@ for line in lines:
 
 i = 0
 
+f2 = open('target.txt','w', encoding="utf-8")
 for three1 in threes:
     for three2 in threes:
         two1 = three1[0] + three2[0]
         two2 = three1[1] + three2[1]
         two3 = three1[2] + three2[2]
         if two1 in twos and two2 in twos and two3 in twos:
-            print( '{"first":"%s", "second":"%s"},' % (three1, three2))
+            f2.write( '{"first":"%s", "second":"%s"},\n' % (three1, three2))
             # "'" + three1 + "," + three2 + "'")
             i = i + 1
                         

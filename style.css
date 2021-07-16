@@ -1,0 +1,41 @@
+body {
+    user-select: none;
+    background: lightpink;
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
+td {
+    width: 100px;
+    height: 100px;
+}
+table {
+    font-size: 50;
+    background:white;
+}
+#well_done {
+    display: none;
+    font-size:100;
+    font-family: 'Rubik', sans-serif;
+}
+#challenge_table {
+    border:brown;
+    border-style: solid;
+}
+#letters_table {
+    border:gray;
+    border-style: solid;
+}
+#new_game {
+    position: absolute;
+    top: 10;
+    left: 10;
+    font-size: 30;
+    cursor: pointer;
+}
